@@ -8,6 +8,8 @@
 #ifndef ARCHE_H
 #define ARCHE_H
 
+void init_arche(void);
+
 // ----------------------------
 // RGB Power LEDs
 // ----------------------------
@@ -29,10 +31,16 @@ void rgb_leds_set(uint8_t _colour);
 // announce victory for a robot
 void rgb_victory_dance(uint8_t _colour);
 
+// ----------------------------
+// Speaker drivers
+// ----------------------------
+void init_speakers(void);
+
 
 // ----------------------------
 // Selector Switch
 // ----------------------------
+void init_switch(void);
 uint8_t read_switch(void);
 
 // ----------------------------
@@ -46,5 +54,10 @@ void init_indicators(void);
 void indicator_set(uint8_t _colour);
 void indicator_clear(uint8_t _colour);
 void indicator_toggle(uint8_t _colour);
+
+// ----------------------------
+// IR Blasters
+// ----------------------------
+void init_ir_blasters(void);
 
 #endif

@@ -38,11 +38,11 @@ int main (void)
     uint8_t i = 0;
 
         init_leds();
+        init_arche();
 
 
         for(;;)
         {
-            while(1)
             {
                 int a = 0;
                 a = read_switch();
@@ -69,9 +69,10 @@ int main (void)
             //_delay_ms(1000);
             //rgb_led_set(1, WHITE);
 
-            _delay_ms(1000);
 
             rgb_victory_dance(RED);
+            _delay_ms(1000);
+            _delay_ms(1000);
             _delay_ms(1000);
             rgb_victory_dance(BLUE);
 

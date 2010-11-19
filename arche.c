@@ -5,6 +5,16 @@
 
 #include <util/delay.h>
 
+void init_arche(void)
+{
+    rgb_leds_init();
+    init_indicators();
+    init_switch();
+    init_speakers();
+    init_ir_blasters();
+}
+
+
 // ----------------------------
 // RGB Power LEDs
 // ----------------------------
@@ -81,10 +91,30 @@ void rgb_victory_dance(uint8_t _colour)
         _delay_ms(VIC_FLASHSPEED);
     }
 }
+// ----------------------------
+// Speaker drivers
+// ----------------------------
+void init_speakers(void)
+{
+    SPEAKER_PORT &= ~(_BV(SPEAKER_PIN) | _BV(SPEAKER_PWR));
+    SPEAKER_DDR  |=  (_BV(SPEAKER_PIN) | _BV(SPEAKER_PWR));
+
+    return;
+}
 
 // ----------------------------
 // Selector Switch
 // ----------------------------
+void init_switch(void)
+{
+    SWITCH_PORT &= ~(_BV(SWITCH_A) | _BV(SWITCH_B));
+    SWITCH_DDR  |=  (_BV(SWITCH_A) | _BV(SWITCH_B));
+
+    return;
+}
+
+// ----------------------------
+
 uint8_t read_switch(void)
 {
     uint8_t val = 0;
@@ -118,6 +148,8 @@ void init_indicators(void)
     return;
 }
 
+// ----------------------------
+
 void indicator_set(uint8_t _colour)
 {
     
@@ -137,6 +169,8 @@ void indicator_set(uint8_t _colour)
     return;
 }
 
+// ----------------------------
+
 void indicator_clear(uint8_t _colour)
 {
     STATUS_PORT &= ~_BV(_colour);
@@ -146,6 +180,17 @@ void indicator_clear(uint8_t _colour)
 void indicator_toggle(uint8_t _colour)
 {
     STATUS_PORT ^= _BV(_colour);
+    return;
+}
+
+// ----------------------------
+// IR Blasters
+// ----------------------------
+void init_ir_blasters(void)
+{
+    IR_LED_PORT &= ~(_BV(IR_LED_LEFT) | _BV(IR_LED_RIGHT));
+    IR_LED_DDR  |=  (_BV(IR_LED_LEFT) | _BV(IR_LED_RIGHT));
+
     return;
 }
 
