@@ -1,20 +1,11 @@
 #define F_CPU 8000000L
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
 #include "hardware.h"
 #include "arche.h"
-
-#define WAIT            _delay_us(2);
-#define DELAY           50
-
-void callback_3min(void);
-
-#ifndef noagenda
-char addNewCallback(void (* newcallbackaddr)(void), unsigned int duration, unsigned char executionNumber);
-void stopCallback(char callbackNumber);
-#endif
 
 volatile struct GAME_FLAGS {
     unsigned game_active:1;
@@ -32,6 +23,7 @@ int main (void)
         init_arche();
 
         // test IR LEDS
+        /*
         int j;
         for(j=0; j<4; j++)
         {
@@ -40,6 +32,7 @@ int main (void)
             ir_blasters_off();
             _delay_ms(1000);
         }
+        */
 
 
         for(;;)
@@ -119,15 +112,8 @@ int main (void)
                 // TURN OFF IR LEDS
                 game_flags.game_active = 1;
 
-                play_long(A_880);
+                play_short(A_880);
                 /*
-
-                //addNewCallback(callback_3min, 5000, 1); // 3 min - 0.5 sec
-                addNewCallback(callback_3min, (18363), 5); // 3 min - 0.5 sec / 10
-                _delay_ms(1000);
-
-                //LED1_PORT = LED3_PORT = 0;
-                LEDS_OFF;
 
 
                 sei();
@@ -169,133 +155,3 @@ int main (void)
 
 }
 
-
-
-/*
-
-
-
-ISR(TIMER1_OVF_vect)
-{
-    // TODO : timer 1 overflow
-            LED1_PORT = LED2_PORT = LED3_PORT = 0;
-            LED1_PORT |= (YELLOW << LED1);
-}
-
-void callback_3min(void)
-{
-    static uint8_t minutes = 0;
-    minutes ++;
-    if (minutes >= 5)
-    {
-        game_flags.game_active = 0;
-        cli();
-                LED1_PORT = LED2_PORT = LED3_PORT = 0;
-                LED1_PORT |= (PURPLE << LED1);
-                LED2_PORT |= (PURPLE << LED2);
-                LED3_PORT |= (PURPLE << LED3);
-
-        TCCR1B = 0x04; // prescaling 256
-        TCNT1 = 0x7FFF;
-        SPEAKER_ENABLE;
-        while(!(TIFR & (1 << TOV1))) // loop until timer1 overflows
-        {
-            TOGGLE_SPEAKER;
-            _delay_us(A_440); // set delay for 440 Hz
-            _delay_us(A_440); // set delay for 440 Hz
-        }
-        SPEAKER_DISABLE;
-        TCCR1B = 0x00;
-        TIFR |= (1 << TOV1);
-    }
-}
-
-#ifndef noagenda
-
-void(*callbackFct[8])(void);
-static volatile unsigned char callbackStatus = 0;
-static volatile unsigned int timeInterval[8] = {0,0,0,0,0,0,0,0};
-static volatile unsigned char numberRepetition[8] = {0,0,0,0,0,0,0,0};
-static volatile unsigned char numberRepeted[8] = {0,0,0,0,0,0,0,0};
-static volatile unsigned long nextExecutionTime[8] = {0,0,0,0,0,0,0,0};
-static volatile unsigned long time = 0;
-
-// max absolute time: 8589934sec
-// time resolution ~2msec
-char addNewCallback(void (* newcallbackaddr)(void), unsigned int duration, unsigned char executionNumber)
-{
-        unsigned char i;
-
-        if(callbackStatus == 0)
-        {
-                //start agenda (again) !
-                TCCR0 = 3;      // normal timer, fclk/64
-                OCR0 = 250;
-                TIMSK |= (1<<OCIE0);//(1<<TOIE0);
-                TIFR &= ~((1<<OCF0)+(1<<TOV0));
-                sei();
-        }
-
-        for(i=0; i<8; i++)
-        {
-                if((callbackStatus & (1<<i)) != 0)
-                {
-                        continue;
-                }
-
-                callbackStatus |= (1<<i);
-                callbackFct[i] = newcallbackaddr;
-                timeInterval[i] = duration;
-                numberRepetition[i] = executionNumber;
-                numberRepeted[i] = 0;
-                nextExecutionTime[i] = time + duration;
-                return i;       
-        }
-
-        return -1;
-}
-
-void stopCallback(char callbackNumber)
-{
-        callbackStatus &= ~(1<<callbackNumber);
-        if(callbackStatus == 0)
-        {
-                TIMSK &= ~(1<<TOIE0);
-                TCCR0=0;
-        }
-}
-
-ISR(TIMER0_COMP_vect) //interruption bloquante !!
-{
-        unsigned char i;
-        TCNT0 = 0;
-        time++;
-        for(i=0;i<8;i++)
-        {
-                if((callbackStatus & (1<<i)) != 0)
-                {
-                        if(nextExecutionTime[i] <= time)
-                        {
-                                if((numberRepeted[i] < numberRepetition[i]) || (numberRepetition[i]==0))
-                                {
-                                        (* callbackFct[i])();
-                                        nextExecutionTime[i] = time + timeInterval[i];
-                                                
-                                        if((numberRepeted[i] >= (numberRepetition[i]-1)) && (numberRepetition[i] != 0))
-                                        {
-                                                callbackStatus &= ~(1<<i);
-                                        }
-                                        else
-                                        {       
-                                                numberRepeted[i]++;
-                                        }
-                                        break;
-                                }
-                        }
-                }
-        }
-}
-
-
-#endif
-*/

@@ -12,6 +12,7 @@ void init_arche(void)
     init_switch();
     init_speakers();
     init_ir_blasters();
+    init_communications();
 }
 
 
@@ -124,6 +125,8 @@ void play_short(uint8_t note)
     TCCR1B = 0x00;
     TIFR |= (1 << TOV1);
 }
+
+// ----------------------------
 
 void play_long(uint8_t note)
 {
@@ -265,4 +268,52 @@ void ir_blasters_down(void)
 {
     // TODO
     return;
+}
+
+// ----------------------------
+// External communication
+// ----------------------------
+
+void init_communications(void)
+{
+    COMM_PORT &= ~COMM_OUTMASK;
+    COMM_DDR  |=  COMM_OUTMASK;
+    COMM_DDR  &= ~COMM_INMASK;
+
+    return;
+}
+
+// ----------------------------
+
+void comm_output_state(uint8_t _state)
+{
+    if(_state == 0)
+        COMM_PORT &= ~_BV(COMM_OUT);
+    else
+        COMM_PORT |=  _BV(COMM_OUT);
+
+    return;
+}
+
+// ----------------------------
+
+uint8_t comm_read_winners(void)
+{
+    uint8_t input = COMM_PINS & COMM_INMASK;
+
+    // bit-shift to LSB positions
+    input >>= COMM_WIN_BLUE;
+
+    switch(input)
+    {
+        case 0x01:
+            return WINNER_BLUE;
+        case 0x02:
+            return WINNER_RED;
+        case 0x03:
+            return WINNER_TIE;
+    }
+
+    // hopefully this will never happen
+    return 0xFF;
 }

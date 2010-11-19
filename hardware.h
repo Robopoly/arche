@@ -128,4 +128,29 @@
  * Macros
  */
 
+
+// ----------------------------
+// External communication
+// ----------------------------
+
+/*
+ * Port and pin definitions
+ */ 
+#define COMM_DDR        DDRB
+#define COMM_PORT       PORTB
+#define COMM_PINS       PINB
+
+// OUT : 0 on standby, 1 while game is in progress
+#define COMM_OUT        PB5
+// IN : logical 1 on either pin makes given robot win
+#define COMM_WIN_BLUE   PB6
+#define COMM_WIN_RED    PB7
+
+#define COMM_INMASK    (_BV(COMM_WIN_BLUE) | _BV(COMM_WIN_RED))
+#define COMM_OUTMASK    _BV(COMM_OUT)
+
+/*
+ * Macros
+ */
+
 #endif

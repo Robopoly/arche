@@ -14,28 +14,15 @@ void init_arche(void);
 // RGB Power LEDs
 // ----------------------------
 
-/*
- * Function definitions
- */
-
-// set ports and DDRs for power leds
 void rgb_leds_init(void);
-
-// Set LED colour as bitmask
-// 0 = turn off
 void rgb_led_set(uint8_t _led, uint8_t _colour);
-
-// Set colour on all at once
 void rgb_leds_set(uint8_t _colour);
-
-// announce victory for a robot
 void rgb_victory_dance(uint8_t _colour);
 
 // ----------------------------
 // Speaker drivers
 // ----------------------------
 void init_speakers(void);
-
 
 // ----------------------------
 // Selector Switch
@@ -63,5 +50,16 @@ void ir_blasters_on(void);
 void ir_blasters_off(void);
 void ir_blasters_up(void);
 void ir_blasters_down(void);
+
+// ----------------------------
+// External communication
+// ----------------------------
+#define WINNER_BLUE 1
+#define WINNER_RED  2
+#define WINNER_TIE  3
+
+void init_communications(void);
+void comm_output_state(uint8_t _state);
+uint8_t comm_read_winners(void);
 
 #endif
