@@ -38,6 +38,11 @@ uint8_t read_switch(void);
 // ----------------------------
 // Indicator LEDs
 // ----------------------------
+#define IND_RED     1
+#define IND_YELLOW  2
+#define IND_GREEN   3
+
+void init_indicators(void);
 void indicator_set(uint8_t _colour);
 void indicator_clear(uint8_t _colour);
 void indicator_toggle(uint8_t _colour);

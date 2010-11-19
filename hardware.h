@@ -74,9 +74,11 @@
  */ 
 #define STATUS_PORT     PORTB
 #define STATUS_DDR      DDRB
-#define STATUS_GREEN    PB7
-#define STATUS_RED      PB6
-#define STATUS_YELLOW   PB5
+#define STATUS_GREEN    PB4
+#define STATUS_RED      PB3
+#define STATUS_YELLOW   PB2
+
+#define STATUS_MASK     (_BV(STATUS_RED) | _BV(STATUS_GREEN) | _BV(STATUS_YELLOW))
 
 /*
  * Macros
@@ -95,6 +97,10 @@
 
 #define SWITCH_A        PC6
 #define SWITCH_B        PC7
+
+#define SWITCH_UP       0
+#define SWITCH_MIDDLE   1
+#define SWITCH_DOWN     2
 
 /*
  * Macros

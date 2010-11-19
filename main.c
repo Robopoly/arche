@@ -48,14 +48,17 @@ int main (void)
                 a = read_switch();
                 switch(a)
                 {
-                    case 0:
+                    case SWITCH_UP:
                         rgb_leds_set(RED);
+                        indicator_set(IND_RED);
                         break;
-                    case 1:
+                    case SWITCH_MIDDLE:
                         rgb_leds_set(YELLOW);
+                        indicator_set(IND_YELLOW);
                         break;
-                    case 2:
+                    case SWITCH_DOWN:
                         rgb_leds_set(GREEN);
+                        indicator_set(IND_GREEN);
                         break;
                     default:
                         rgb_leds_set(BLUE);
@@ -63,8 +66,8 @@ int main (void)
                 }
             }
 
-            _delay_ms(1000);
-            rgb_led_set(1, WHITE);
+            //_delay_ms(1000);
+            //rgb_led_set(1, WHITE);
 
             _delay_ms(1000);
 
@@ -195,13 +198,15 @@ int main (void)
 void init_leds(void)
 {
 
-    rgb_leds_init();
 
     PORTD = 0x00;
     DDRD = 0xF0;
     
     PORTC = 0x00;
     DDRC = 0x00;
+
+    rgb_leds_init();
+    init_indicators();
 
     //TCCR1B = 0b00000100;
     //TIMSK = (1 << TOIE1); // enable Timer 1 Overflow

@@ -96,11 +96,11 @@ uint8_t read_switch(void)
     switch (val)
     {
         case 0x01:
-            return 0;
+            return SWITCH_UP;
         case 0x03:
-            return 1;
+            return SWITCH_MIDDLE;
         case 0x02:
-            return 2;
+            return SWITCH_DOWN;
     }
     return 3;
 }
@@ -108,9 +108,32 @@ uint8_t read_switch(void)
 // ----------------------------
 // Indicator LEDs
 // ----------------------------
+void init_indicators(void)
+{
+    STATUS_DDR |= (
+            _BV(STATUS_GREEN) |
+            _BV(STATUS_YELLOW) |
+            _BV(STATUS_RED)
+            );
+    return;
+}
+
 void indicator_set(uint8_t _colour)
 {
-    STATUS_PORT |= _BV(_colour);
+    
+    STATUS_PORT &= ~(STATUS_MASK);
+    switch(_colour)
+    {
+        case IND_RED:
+            STATUS_PORT |= _BV(STATUS_RED);
+            break;
+        case IND_GREEN:
+            STATUS_PORT |= _BV(STATUS_GREEN);
+            break;
+        case IND_YELLOW:
+            STATUS_PORT |= _BV(STATUS_YELLOW);
+            break;
+    }
     return;
 }
 
