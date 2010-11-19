@@ -59,5 +59,9 @@ void indicator_toggle(uint8_t _colour);
 // IR Blasters
 // ----------------------------
 void init_ir_blasters(void);
+void ir_blasters_on(void);
+void ir_blasters_off(void);
+void ir_blasters_up(void);
+void ir_blasters_down(void);
 
 #endif

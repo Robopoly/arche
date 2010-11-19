@@ -6,7 +6,6 @@
 #include "hardware.h"
 #include "arche.h"
 
-
 #define WAIT            _delay_us(2);
 #define DELAY           50
 
@@ -18,12 +17,6 @@ char addNewCallback(void (* newcallbackaddr)(void), unsigned int duration, unsig
 void stopCallback(char callbackNumber);
 #endif
 
-//uint8_t counter = 0; // global PWM variable
-//volatile uint8_t pwm1, pwm2, pwm3 = 0;
-
-//volatile uint8_t pwm4, pwm5, pwm6 = 0;
-
-//volatile uint8_t pwm7, pwm8, pwm9 = 0;
 volatile struct GAME_FLAGS {
     unsigned game_active:1;
     unsigned player1_win:1;
@@ -39,6 +32,16 @@ int main (void)
 
         init_leds();
         init_arche();
+
+        // test IR LEDS
+        int j;
+        for(j=0; j<4; j++)
+        {
+            ir_blasters_on();
+            _delay_ms(1000);
+            ir_blasters_off();
+            _delay_ms(1000);
+        }
 
 
         for(;;)

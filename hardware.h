@@ -122,6 +122,8 @@
 #define IR_LED_LEFT     PB0
 #define IR_LED_RIGHT    PB1
 
+#define IR_LED_MASK     (_BV(IR_LED_LEFT) | _BV(IR_LED_RIGHT))
+
 /*
  * Macros
  */

@@ -191,7 +191,29 @@ void init_ir_blasters(void)
     IR_LED_PORT &= ~(_BV(IR_LED_LEFT) | _BV(IR_LED_RIGHT));
     IR_LED_DDR  |=  (_BV(IR_LED_LEFT) | _BV(IR_LED_RIGHT));
 
+    // TODO : init servos
+
     return;
 }
 
+void ir_blasters_on(void)
+{
+    IR_LED_PORT |= IR_LED_MASK;
+}
 
+void ir_blasters_off(void)
+{
+    IR_LED_PORT &= ~IR_LED_MASK;
+}
+
+void ir_blasters_up(void)
+{
+    // TODO
+    return;
+}
+
+void ir_blasters_down(void)
+{
+    // TODO
+    return;
+}
