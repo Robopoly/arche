@@ -41,6 +41,8 @@ int main (void)
 
         ir_blasters_rest();
 
+        _delay_ms(2000);
+
 
         /*
         for(;;)

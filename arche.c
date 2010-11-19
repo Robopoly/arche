@@ -258,13 +258,13 @@ void set_pwm(uint16_t left, uint16_t right)
 {
     // 8 bit fast pwm
     TCCR1A =    (0b11 << WGM10) | // WGM11:10
-                (0b11 << COM1A0) |
+                (0b10 << COM1A0) |
                 //(0b11 << FOC1B) | // FOC1A:B
-                (0b11 << COM1B0);
+                (0b10 << COM1B0);
     TCCR1B =    (0b01 << WGM12) | // WGM13:12
                 (0b100 << CS10); // prescaler 256
-    OCR1A = OCR_OFFSET+left;
-    OCR1B = OCR_OFFSET+right;
+    OCR1A = OCR_OFFSET+right;
+    OCR1B = OCR_OFFSET+left;
     TIMSK |= _BV(TOIE1);
     sei();
 }
@@ -279,25 +279,24 @@ void disable_pwm(void)
 ISR(TIMER1_OVF_vect)
 {
     TCNT1 = OCR_OFFSET;
-    PORTD ^= 0xFF;
 }
 
 // ---------------------------
 // SERVO Functions
 // ---------------------------
 
-void ir_blasters_up(void)
+void ir_blasters_down(void)
 {
-    set_pwm(32, 64);
+    set_pwm(65, 26);
 
     return;
 }
 
 // ----------------------------
 
-void ir_blasters_down(void)
+void ir_blasters_up(void)
 {
-    // TODO
+    set_pwm(35, 60);
     return;
 }
 
@@ -305,7 +304,9 @@ void ir_blasters_down(void)
 
 void ir_blasters_rest(void)
 {
-    // TODO
+    disable_pwm();
+    SERVO_PORT &= ~SERVO_MASK;
+
     return;
 }
 
