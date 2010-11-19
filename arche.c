@@ -4,6 +4,7 @@
 #include "arche.h"
 
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
 void init_arche(void)
 {
@@ -230,8 +231,8 @@ void init_ir_blasters(void)
     IR_LED_PORT &= ~(_BV(IR_LED_LEFT) | _BV(IR_LED_RIGHT));
     IR_LED_DDR  |=  (_BV(IR_LED_LEFT) | _BV(IR_LED_RIGHT));
 
-    // TODO : init servos
-
+    SERVO_PORT  &= ~SERVO_MASK;
+    SERVO_DDR   |=  SERVO_MASK;
     return;
 }
 
@@ -250,8 +251,51 @@ void ir_blasters_off(void)
 }
 
 // ----------------------------
+// INTERNAL FUNCTIONS
+// ----------------------------
+#define OCR_OFFSET  383
+void set_pwm(uint16_t left, uint16_t right)
+{
+    // 8 bit fast pwm
+    TCCR1A =    (0b11 << WGM10) | // WGM11:10
+                (0b11 << COM1A0) |
+                //(0b11 << FOC1B) | // FOC1A:B
+                (0b11 << COM1B0);
+    TCCR1B =    (0b01 << WGM12) | // WGM13:12
+                (0b100 << CS10); // prescaler 256
+    OCR1A = OCR_OFFSET+left;
+    OCR1B = OCR_OFFSET+right;
+    TIMSK |= _BV(TOIE1);
+    sei();
+}
+
+void disable_pwm(void)
+{
+    TCCR1A = 0;
+    TCCR1B = 0;
+    TIMSK &= ~_BV(TOIE1);
+}
+
+ISR(TIMER1_OVF_vect)
+{
+    TCNT1 = OCR_OFFSET;
+    PORTD ^= 0xFF;
+}
+
+// ---------------------------
+// SERVO Functions
+// ---------------------------
 
 void ir_blasters_up(void)
+{
+    set_pwm(32, 64);
+
+    return;
+}
+
+// ----------------------------
+
+void ir_blasters_down(void)
 {
     // TODO
     return;
@@ -259,7 +303,7 @@ void ir_blasters_up(void)
 
 // ----------------------------
 
-void ir_blasters_down(void)
+void ir_blasters_rest(void)
 {
     // TODO
     return;

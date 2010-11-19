@@ -23,21 +23,40 @@ int main (void)
         init_arche();
 
         ir_blasters_on();
+        
+        //while (!(read_switch() == SWITCH_UP))
+            //indicator_set(read_switch()); 
 
+        // test servos
+        DDRC |= 0x04;
+        PORTC |= 0x04;
+
+        ir_blasters_up();
+
+        _delay_ms(2000);
+
+        ir_blasters_down();
+
+        _delay_ms(2000);
+
+        ir_blasters_rest();
+
+
+        /*
         for(;;)
         {
-            /*
-             * Check switch position
-             */
+            //
+            // Check switch position
+            //
             while (!(read_switch() == SWITCH_UP))
                 indicator_set(read_switch()); 
 
             indicator_set(IND_GREEN);
 
 
-            /*
-             * Launch start sequence
-             */
+            //
+            // Launch start sequence
+            //
 
             // three red leds with beeps
             for( i=0; i<3; i++)
@@ -99,6 +118,7 @@ int main (void)
             _delay_ms(1000);
 
         }
+*/
 
 
 

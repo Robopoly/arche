@@ -120,6 +120,13 @@
 
 #define IR_LED_MASK     (_BV(IR_LED_LEFT) | _BV(IR_LED_RIGHT))
 
+#define SERVO_PORT      PORTD
+#define SERVO_DDR       DDRD
+#define SERVO_LEFT      PD5
+#define SERVO_RIGHT     PD4
+
+#define SERVO_MASK      (_BV(SERVO_LEFT) | _BV(SERVO_RIGHT))
+
 /*
  * Macros
  */

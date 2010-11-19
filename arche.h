@@ -56,6 +56,7 @@ void ir_blasters_on(void);
 void ir_blasters_off(void);
 void ir_blasters_up(void);
 void ir_blasters_down(void);
+void ir_blasters_rest(void);
 
 // ----------------------------
 // External communication
