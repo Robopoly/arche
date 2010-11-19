@@ -9,7 +9,6 @@
 #define WAIT            _delay_us(2);
 #define DELAY           50
 
-void init_leds(void);
 void callback_3min(void);
 
 #ifndef noagenda
@@ -30,7 +29,6 @@ int main (void)
 {
     uint8_t i = 0;
 
-        init_leds();
         init_arche();
 
         // test IR LEDS
@@ -97,23 +95,8 @@ int main (void)
                 if(i == 2)
                     LED3_PORT |= (RED << LED3); // add third
 
-                // start timer for 0.5s
-                TCNT1 = 0;
-                TIFR |= (1 << TOV1);
-                TCCR1B = 0x03; // no prescaling
-                //TIFR &= ~(1 << TOV1); // clear flag
-                TIMSK &= ~(1 << TOIE1); // disable timer 1 overflow
 
-
-                SPEAKER_ENABLE;
-                while(!(TIFR & (1 << TOV1))) // loop until timer1 overflows
-                {
-                    TOGGLE_SPEAKER;
-                    _delay_us(A_440); // set delay for 440 Hz
-                }
-                SPEAKER_DISABLE;
-                TCCR1B = 0x00;
-                TIFR |= (1 << TOV1);
+                play_short(A_440);
 
                 _delay_ms(400); // wait a total of 500 + 200 = 700ms
             }
@@ -132,23 +115,12 @@ int main (void)
                 */
 
 
-                /*
+                
                 // TURN OFF IR LEDS
-                IR_LED_PORT &= ~_BV(IR_LED_BIT);
                 game_flags.game_active = 1;
 
-                // start timer for 0.5s
-                TCCR1B = 0x03; // no prescaling
-
-                SPEAKER_ENABLE;
-                while(!(TIFR & (1 << TOV1))) // loop until timer1 overflows
-                {
-                    TOGGLE_SPEAKER;
-                    _delay_us(A_880); // set delay for 880 Hz
-                }
-                SPEAKER_DISABLE;
-                TCCR1B = 0x00;
-                TIFR |= (1 << TOV1);
+                play_long(A_880);
+                /*
 
                 //addNewCallback(callback_3min, 5000, 1); // 3 min - 0.5 sec
                 addNewCallback(callback_3min, (18363), 5); // 3 min - 0.5 sec / 10
@@ -199,30 +171,6 @@ int main (void)
 
 
 
-void init_leds(void)
-{
-
-
-    PORTD = 0x00;
-    DDRD = 0xF0;
-    
-    PORTC = 0x00;
-    DDRC = 0x00;
-
-    rgb_leds_init();
-    init_indicators();
-
-    //TCCR1B = 0b00000100;
-    //TIMSK = (1 << TOIE1); // enable Timer 1 Overflow
-    //TIMSK = 0x04;
-    //
-    // TURN ON IR LEDS
-    //IR_LED_DDR |= _BV(IR_LED_BIT);
-    //IR_LED_PORT |= _BV(IR_LED_BIT);
-
-    //sei();
-    return;
-}
 /*
 
 

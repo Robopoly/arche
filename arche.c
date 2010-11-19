@@ -103,6 +103,45 @@ void init_speakers(void)
 }
 
 // ----------------------------
+
+void play_short(uint8_t note)
+{
+    // start timer for 0.5s
+    TCNT1 = 0;
+    TIFR |= (1 << TOV1);
+    TCCR1B = 0x03; // no prescaling
+    //TIFR &= ~(1 << TOV1); // clear flag
+    TIMSK &= ~(1 << TOIE1); // disable timer 1 overflow
+
+
+    SPEAKER_ENABLE;
+    while(!(TIFR & (1 << TOV1))) // loop until timer1 overflows
+    {
+        TOGGLE_SPEAKER;
+        _delay_us(note); // set delay for 440 Hz
+    }
+    SPEAKER_DISABLE;
+    TCCR1B = 0x00;
+    TIFR |= (1 << TOV1);
+}
+
+void play_long(uint8_t note)
+{
+    // start timer for 0.5s
+    TCCR1B = 0x03; // no prescaling
+
+    SPEAKER_ENABLE;
+    while(!(TIFR & (1 << TOV1))) // loop until timer1 overflows
+    {
+        TOGGLE_SPEAKER;
+        _delay_us(note); // set delay for 880 Hz
+    }
+    SPEAKER_DISABLE;
+    TCCR1B = 0x00;
+    TIFR |= (1 << TOV1);
+}
+
+// ----------------------------
 // Selector Switch
 // ----------------------------
 void init_switch(void)
@@ -173,13 +212,15 @@ void indicator_set(uint8_t _colour)
 
 void indicator_clear(uint8_t _colour)
 {
-    STATUS_PORT &= ~_BV(_colour);
+    // TODO
     return;
 }
 
+// ----------------------------
+
 void indicator_toggle(uint8_t _colour)
 {
-    STATUS_PORT ^= _BV(_colour);
+    // TODO
     return;
 }
 
@@ -196,21 +237,29 @@ void init_ir_blasters(void)
     return;
 }
 
+// ----------------------------
+
 void ir_blasters_on(void)
 {
     IR_LED_PORT |= IR_LED_MASK;
 }
+
+// ----------------------------
 
 void ir_blasters_off(void)
 {
     IR_LED_PORT &= ~IR_LED_MASK;
 }
 
+// ----------------------------
+
 void ir_blasters_up(void)
 {
     // TODO
     return;
 }
+
+// ----------------------------
 
 void ir_blasters_down(void)
 {
