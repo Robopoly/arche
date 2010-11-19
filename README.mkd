@@ -1,0 +1,16 @@
+# Arche de départ ROBOPOLY
+
+Code pour l'arche de départ v2.0 (Version avec départ infrarouge rétractable,
+interrupteur et indicateurs LED).
+
+## Description des périphériques
+
+### Interrupteur 3 positions
+
+### LEDs RGB
+
+### Haut-parleurs sur Pont H
+
+### LED d'état
+
+### Blasters Infrarouge
