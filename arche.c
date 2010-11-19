@@ -15,9 +15,9 @@ void rgb_leds_init(void)
     LED2_PORT &= ~(WHITE << LED2);
     LED3_PORT &= ~(WHITE << LED3);
     // set DDRS as outputs
-    LED1_DDR |= ~(WHITE << LED1);
-    LED2_DDR |= ~(WHITE << LED2);
-    LED3_DDR |= ~(WHITE << LED3);
+    LED1_DDR |= (WHITE << LED1);
+    LED2_DDR |= (WHITE << LED2);
+    LED3_DDR |= (WHITE << LED3);
 }
 
 // ----------------------------
