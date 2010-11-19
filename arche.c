@@ -126,23 +126,6 @@ void play_short(uint8_t note)
     TIFR |= (1 << TOV1);
 }
 
-// ----------------------------
-
-void play_long(uint8_t note)
-{
-    // start timer for 0.5s
-    TCCR1B = 0x03; // no prescaling
-
-    SPEAKER_ENABLE;
-    while(!(TIFR & (1 << TOV1))) // loop until timer1 overflows
-    {
-        TOGGLE_SPEAKER;
-        _delay_us(note); // set delay for 880 Hz
-    }
-    SPEAKER_DISABLE;
-    TCCR1B = 0x00;
-    TIFR |= (1 << TOV1);
-}
 
 // ----------------------------
 // Selector Switch
@@ -150,7 +133,7 @@ void play_long(uint8_t note)
 void init_switch(void)
 {
     SWITCH_PORT &= ~(_BV(SWITCH_A) | _BV(SWITCH_B));
-    SWITCH_DDR  |=  (_BV(SWITCH_A) | _BV(SWITCH_B));
+    SWITCH_DDR  &= ~(_BV(SWITCH_A) | _BV(SWITCH_B));
 
     return;
 }
@@ -174,7 +157,7 @@ uint8_t read_switch(void)
         case 0x02:
             return SWITCH_DOWN;
     }
-    return 3;
+    return 0;
 }
 
 // ----------------------------
@@ -207,6 +190,8 @@ void indicator_set(uint8_t _colour)
         case IND_YELLOW:
             STATUS_PORT |= _BV(STATUS_YELLOW);
             break;
+        case IND_OFF:
+            break;
     }
     return;
 }
@@ -223,7 +208,17 @@ void indicator_clear(uint8_t _colour)
 
 void indicator_toggle(uint8_t _colour)
 {
-    // TODO
+    static uint8_t previous_state = 0;
+    if (previous_state == 0)
+    {
+        indicator_set(_colour);
+        previous_state = 1;
+    }
+    else
+    {
+        indicator_set(OFF);
+        previous_state = 0;
+    }
     return;
 }
 
@@ -280,6 +275,9 @@ void init_communications(void)
     COMM_DDR  |=  COMM_OUTMASK;
     COMM_DDR  &= ~COMM_INMASK;
 
+    // activate internal pullups
+    COMM_PORT |=  COMM_INMASK;
+
     return;
 }
 
@@ -299,18 +297,25 @@ void comm_output_state(uint8_t _state)
 
 uint8_t comm_read_winners(void)
 {
+    // reactivate internal pullups just in case
+    COMM_PORT |=  COMM_INMASK;
+
+    // read input pins
     uint8_t input = COMM_PINS & COMM_INMASK;
 
     // bit-shift to LSB positions
     input >>= COMM_WIN_BLUE;
 
+    // default state is 1 (internal pullups!)
     switch(input)
     {
-        case 0x01:
-            return WINNER_BLUE;
-        case 0x02:
-            return WINNER_RED;
         case 0x03:
+            return 0;
+        case 0x02:
+            return WINNER_BLUE;
+        case 0x01:
+            return WINNER_RED;
+        case 0x00:
             return WINNER_TIE;
     }
 

@@ -23,16 +23,22 @@ void rgb_victory_dance(uint8_t _colour);
 // Speaker drivers
 // ----------------------------
 void init_speakers(void);
+void play_short(uint8_t note);
 
 // ----------------------------
 // Selector Switch
 // ----------------------------
+#define SWITCH_UP       3
+#define SWITCH_MIDDLE   2
+#define SWITCH_DOWN     1
+
 void init_switch(void);
 uint8_t read_switch(void);
 
 // ----------------------------
 // Indicator LEDs
 // ----------------------------
+#define IND_OFF     0
 #define IND_RED     1
 #define IND_YELLOW  2
 #define IND_GREEN   3

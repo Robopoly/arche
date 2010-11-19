@@ -98,10 +98,6 @@
 #define SWITCH_A        PC6
 #define SWITCH_B        PC7
 
-#define SWITCH_UP       0
-#define SWITCH_MIDDLE   1
-#define SWITCH_DOWN     2
-
 /*
  * Macros
  */
@@ -141,10 +137,10 @@
 #define COMM_PINS       PINB
 
 // OUT : 0 on standby, 1 while game is in progress
-#define COMM_OUT        PB5
+#define COMM_OUT        PB7
 // IN : logical 1 on either pin makes given robot win
-#define COMM_WIN_BLUE   PB6
-#define COMM_WIN_RED    PB7
+#define COMM_WIN_BLUE   PB5
+#define COMM_WIN_RED    PB6
 
 #define COMM_INMASK    (_BV(COMM_WIN_BLUE) | _BV(COMM_WIN_RED))
 #define COMM_OUTMASK    _BV(COMM_OUT)
