@@ -34,9 +34,15 @@ int main (void)
         for(;;)
         {
             BEGINNING:
+            comm_output_state(0);
             //
             // Check switch position
             //
+            // Require switch to be disengaged before start
+            while (read_switch() == SWITCH_UP)
+                indicator_set(read_switch()); 
+
+            // Don't start until it *is* engaged
             while (!(read_switch() == SWITCH_UP))
             {
                 indicator_set(read_switch()); 
@@ -103,12 +109,6 @@ int main (void)
 
             }
 
-            // TURN ON IR LEDs
-            ir_blasters_on();
-            ir_blasters_down();
-            _delay_ms(1000);
-            ir_blasters_rest();
-
 
             // TODO : SIGNAL END OF GAME
             comm_output_state(0);
@@ -121,6 +121,13 @@ int main (void)
                 ;
             else
                 rgb_victory_dance(PURPLE);
+
+            // TURN ON IR LEDs
+            ir_blasters_on();
+            ir_blasters_down();
+            _delay_ms(1000);
+            ir_blasters_rest();
+
 
             _delay_ms(1000);
 
