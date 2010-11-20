@@ -110,7 +110,7 @@ void play_short(uint8_t note)
 {
     // start timer for 0.5s
     TCNT1 = 0;
-    TIFR |= (1 << TOV1);
+    TIFR = (1 << TOV1);
     TCCR1B = 0x03; // no prescaling
     //TIFR &= ~(1 << TOV1); // clear flag
     TIMSK &= ~(1 << TOIE1); // disable timer 1 overflow
@@ -257,6 +257,7 @@ void ir_blasters_off(void)
 void set_pwm(uint16_t left, uint16_t right)
 {
     // 8 bit fast pwm
+    TCNT1 = 0;
     TCCR1A =    (0b11 << WGM10) | // WGM11:10
                 (0b10 << COM1A0) |
                 //(0b11 << FOC1B) | // FOC1A:B
@@ -273,7 +274,10 @@ void disable_pwm(void)
 {
     TCCR1A = 0;
     TCCR1B = 0;
+    OCR1A = 0;
+    OCR1B = 0;
     TIMSK &= ~_BV(TOIE1);
+    TIMSK = 0;
 }
 
 ISR(TIMER1_OVF_vect)

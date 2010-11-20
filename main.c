@@ -22,36 +22,34 @@ int main (void)
 
         init_arche();
 
-        ir_blasters_on();
-        
-        //while (!(read_switch() == SWITCH_UP))
-            //indicator_set(read_switch()); 
-
-        // test servos
-        DDRC |= 0x04;
-        PORTC |= 0x04;
-
-        ir_blasters_up();
-
-        _delay_ms(2000);
-
         ir_blasters_down();
 
-        _delay_ms(2000);
+        ir_blasters_on();
+
+        _delay_ms(1000);
 
         ir_blasters_rest();
+        
 
-        _delay_ms(2000);
-
-
-        /*
         for(;;)
         {
+            BEGINNING:
             //
             // Check switch position
             //
             while (!(read_switch() == SWITCH_UP))
+            {
                 indicator_set(read_switch()); 
+            }
+
+            for( i=0; i<30; i++)
+            {
+                indicator_toggle(IND_YELLOW);
+                _delay_ms(100);
+                // last minute cancel!!
+                if(read_switch() != SWITCH_UP)
+                    goto BEGINNING;
+            }
 
             indicator_set(IND_GREEN);
 
@@ -79,11 +77,15 @@ int main (void)
 
             rgb_leds_set(OFF);
 
+            _delay_ms(1000);
+
+            ir_blasters_up();
+
             int winner = 0;
             while(game_flags.game_active == 1)
             {
                 _delay_ms(100);
-                indicator_toggle(IND_YELLOW);
+                indicator_toggle(IND_GREEN);
 
                 // check for a winner
                 winner = comm_read_winners();
@@ -103,6 +105,9 @@ int main (void)
 
             // TURN ON IR LEDs
             ir_blasters_on();
+            ir_blasters_down();
+            _delay_ms(1000);
+            ir_blasters_rest();
 
 
             // TODO : SIGNAL END OF GAME
@@ -120,7 +125,6 @@ int main (void)
             _delay_ms(1000);
 
         }
-*/
 
 
 
