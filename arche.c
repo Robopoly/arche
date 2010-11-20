@@ -327,6 +327,8 @@ void init_communications(void)
     // activate internal pullups
     COMM_PORT |=  COMM_INMASK;
 
+    COMM_OUTDDR |= _BV(COMM_OUTPIN);
+
     return;
 }
 
@@ -335,9 +337,15 @@ void init_communications(void)
 void comm_output_state(uint8_t _state)
 {
     if(_state == 0)
+    {
         COMM_PORT &= ~_BV(COMM_OUT);
+        COMM_OUTPORT &= ~_BV(COMM_OUTPIN);
+    }
     else
+    {
         COMM_PORT |=  _BV(COMM_OUT);
+        COMM_OUTPORT |=  _BV(COMM_OUTPIN);
+    }
 
     return;
 }

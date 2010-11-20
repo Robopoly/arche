@@ -152,6 +152,9 @@
 #define COMM_INMASK    (_BV(COMM_WIN_BLUE) | _BV(COMM_WIN_RED))
 #define COMM_OUTMASK    _BV(COMM_OUT)
 
+#define COMM_OUTPORT    PORTC
+#define COMM_OUTDDR     DDRC
+#define COMM_OUTPIN     PC0
 /*
  * Macros
  */

@@ -110,8 +110,8 @@ AVRDUDE_PROGRAMMERID=usbtiny
 # hardware programmer is attached
 #
 #AVRDUDE_PORT=/dev/ttyS0
-#PYGALOAD_PORT=/dev/ttyUSB1
-PYGALOAD_PORT=/dev/ttyUSB0
+PYGALOAD_PORT=/dev/ttyUSB1
+#PYGALOAD_PORT=/dev/ttyUSB0
 
 
 ####################################################
