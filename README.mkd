@@ -1,14 +1,14 @@
-# Arche de départ ROBOPOLY
+# Arche de départ ROBOPOLY #
 
 Code pour l'arche de départ v2.0 (Version avec départ infrarouge rétractable,
 interrupteur et indicateurs LED).
 
-## Description des périphériques
+## Description des périphériques ##
 
 L'arche est dotée de deux bras qui donnent le départ par infrarouge. Ceux-ci
 éclairent vers "l'avant" de l'arche.
 
-### Interrupteur 3 positions
+### Interrupteur 3 positions ###
 
 Un interrupteur se trouve sur le côté gauche de l'arche. Il peut prendre trois
 positions : haut, milieu et bas.
@@ -18,26 +18,27 @@ nouveau départ soit donné.
 Si l'on désire interrompre une partie en cours, l'interrupteur doit être mis en
 position basse.
 
-### LEDs d'état
+### LEDs d'état ###
 
 Des diodes indiquent l'état de l'arche.
-- Rouge : l'arche est en "reset". Les émetteurs infrarouges sont actifs, les
-  bras sont en position pour donner le départ. 
-- Orange : l'arche est prête au départ.
-- Orange clignotant : lorsque la partie est lancée, la LED orange clignote
-  pendant quelques secondes avant de lancer la séquence d'allumage
-- Vert : Séquence de départ en cours
-- Vert clignotant : La partie est en cours. La partie s'interrompt si
-  l'interrupteur est dans la position basse, ou si une condition de victoire
-  est détectée
 
-### LEDs RGB
+*  Rouge : l'arche est en "reset". Les émetteurs infrarouges sont actifs, les
+   bras sont en position pour donner le départ. 
+*  Orange : l'arche est prête au départ.
+*  Orange clignotant : lorsque la partie est lancée, la LED orange clignote
+   pendant quelques secondes avant de lancer la séquence d'allumage
+*  Vert : Séquence de départ en cours
+*  Vert clignotant : La partie est en cours. La partie s'interrompt si
+   l'interrupteur est dans la position basse, ou si une condition de victoire
+   est détectée
+
+### LEDs RGB ###
 
 Des LED de puissance à trois couleurs servent à donner le départ et à indiquer
 le vainqueur. Ces LEDs peuvent s'allumer individuellement en rouge, vert, bleu
 ou une combinaison de ces trois couleurs.
 
-### Communication
+### Communication ###
 
 La version actuelle de l'arche dispose de trois lignes de communication (par
 niveaux logiques). Une ligne de sortie indique l'état de la partie en cours.
@@ -47,7 +48,7 @@ Deux lignes en entrée permettent à l'arche de terminer la partie en cours et
 d'indiquer le vainqueur (une ligne par robot, qui doit être tirée à zéro pour
 le vainqueur).
 
-### Haut-parleurs sur Pont H
+### Haut-parleurs sur Pont H ###
 
 Deux haut-parleurs, de chaque côté de l'arche, sont commandés par un Pont H, et
 permettent de jouer des sons simples. Actuellement, ils ne servent qu'à donner
@@ -56,14 +57,14 @@ le départ. Une éventuelle musique de fin de jeu n'est pas encore implémentée
 Les deux commandes de haut-parleurs sont reliées ensemble. Il n'est donc pas
 possible de jouer des sons en "stéréo" sans modifier le hardware.
 
-### Blasters Infrarouge
+### Blasters Infrarouge ###
 
 Deux bras commandés par des servomoteurs se placent derrière chaque ligne de
 départ et émettent des infrarouges vers l'avant. Les lumières s'éteignent
 lorsque la partie commence, et les bras sont retirés quelques secondes plus
 tard.
 
-## Utilisation
+## Utilisation ##
 
 L'arche est un module indépendant et ne nécessite aucune connection externe
 pour fonctionner correctement.
@@ -77,7 +78,7 @@ internes du microcontrôleur pour éviter les interférences. Ces lignes
 peuvent être connectées directement à des bumpers de fin de course pour
 afficher une routine de victoire pour le robot gagnant.
 
-## Description de la librairie
+## Description de la librairie ##
 
 Cette archive contient tous les fichiers nécessaires au fonctionnement de
 l'arche.
