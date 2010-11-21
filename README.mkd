@@ -12,9 +12,11 @@ L'arche est dotée de deux bras qui donnent le départ par infrarouge. Ceux-ci
 
 Un interrupteur se trouve sur le côté gauche de l'arche. Il peut prendre trois
 positions : haut, milieu et bas.
+
 Le départ est donné en mettant l'interrupteur vers le haut. Si une partie vient
 de se terminer, l'interrupteur doit revenir à la position centrale avant qu'un
 nouveau départ soit donné.
+
 Si l'on désire interrompre une partie en cours, l'interrupteur doit être mis en
 position basse.
 
@@ -22,13 +24,13 @@ position basse.
 
 Des diodes indiquent l'état de l'arche.
 
-*  Rouge : l'arche est en "reset". Les émetteurs infrarouges sont actifs, les
+*  *Rouge* : l'arche est en "reset". Les émetteurs infrarouges sont actifs, les
    bras sont en position pour donner le départ. 
-*  Orange : l'arche est prête au départ.
-*  Orange clignotant : lorsque la partie est lancée, la LED orange clignote
+*  *Orange* : l'arche est prête au départ.
+*  *Orange clignotant* : lorsque la partie est lancée, la LED orange clignote
    pendant quelques secondes avant de lancer la séquence d'allumage
-*  Vert : Séquence de départ en cours
-*  Vert clignotant : La partie est en cours. La partie s'interrompt si
+*  *Vert* : Séquence de départ en cours
+*  *Vert clignotant* : La partie est en cours. La partie s'interrompt si
    l'interrupteur est dans la position basse, ou si une condition de victoire
    est détectée
 
@@ -42,8 +44,10 @@ ou une combinaison de ces trois couleurs.
 
 La version actuelle de l'arche dispose de trois lignes de communication (par
 niveaux logiques). Une ligne de sortie indique l'état de la partie en cours.
-Etat 1 : une partie est en cours.
-Etat 0 : aucune partie en cours.
+
+	*Etat 1* : une partie est en cours.
+	*Etat 0* : aucune partie en cours.
+
 Deux lignes en entrée permettent à l'arche de terminer la partie en cours et
 d'indiquer le vainqueur (une ligne par robot, qui doit être tirée à zéro pour
 le vainqueur).
