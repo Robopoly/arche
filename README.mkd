@@ -45,8 +45,8 @@ ou une combinaison de ces trois couleurs.
 La version actuelle de l'arche dispose de trois lignes de communication (par
 niveaux logiques). Une ligne de sortie indique l'état de la partie en cours.
 
-	*Etat 1* : une partie est en cours.
-	*Etat 0* : aucune partie en cours.
+*  *Etat 1* : une partie est en cours.
+*  *Etat 0* : aucune partie en cours.
 
 Deux lignes en entrée permettent à l'arche de terminer la partie en cours et
 d'indiquer le vainqueur (une ligne par robot, qui doit être tirée à zéro pour
